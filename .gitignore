@@ -1,0 +1,60 @@
+# ===========================
+# BACKEND .NET
+# ===========================
+
+# Dossiers de compilation (générés automatiquement, inutile de les versionner)
+backend/bin/
+backend/obj/
+
+# Base de données SQLite (contient des données réelles, ne pas versionner)
+backend/*.db
+backend/*.db-shm
+backend/*.db-wal
+
+# Fichiers de migrations générés (optionnel : certains les versionnent)
+# backend/Migrations/
+
+# Secrets et configuration locale
+backend/appsettings.Local.json
+backend/*.user
+
+# Logs
+backend/logs/
+backend/*.log
+
+# ===========================
+# FRONTEND NODE / REACT
+# ===========================
+
+# Dépendances npm (énorme, se réinstalle avec "npm install")
+frontend/node_modules/
+
+# Dossier de build production
+frontend/dist/
+
+# Cache Vite
+frontend/.vite/
+
+# Variables d'environnement locales (peuvent contenir des secrets)
+frontend/.env.local
+frontend/.env.*.local
+
+# ===========================
+# ÉDITEURS / OS
+# ===========================
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# macOS
+.DS_Store
+
+# JetBrains (Rider, WebStorm...)
+.idea/
+*.suo
+*.user

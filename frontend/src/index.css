@@ -1,0 +1,10 @@
+/*
+ * Les 3 directives Tailwind sont obligatoires.
+ * Tailwind les remplace au build par les classes CSS générées.
+ * - base : reset CSS (normalise les styles entre navigateurs)
+ * - components : classes de composants réutilisables
+ * - utilities : toutes les classes utilitaires (flex, p-4, text-blue-500, etc.)
+ */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
