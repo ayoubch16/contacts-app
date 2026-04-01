@@ -32,8 +32,8 @@ export default function ContactCard({ contact, onEdit, onDelete }) {
             {contact.firstName} {contact.lastName}
           </h3>
 
-          {contact.company && (
-            <p className="text-gray-500 text-sm">{contact.company}</p>
+          {contact.category && (
+            <p className="text-gray-500 text-sm">{contact.category}</p>
           )}
 
           <div className="mt-2 space-y-1">

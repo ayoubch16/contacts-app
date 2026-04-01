@@ -36,4 +36,5 @@ public class ApplicationUser : IdentityUser
      * UserId dans la table Contacts grâce à cette navigation property.
      */
     public ICollection<Contact> Contacts { get; set; } = new List<Contact>();
+    public ICollection<Category> Categories { get; set; } = new List<Category>();
 }

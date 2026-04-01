@@ -160,6 +160,26 @@ namespace ContactsApp.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Categories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
+                    UserId = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Categories_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Contacts",
                 columns: table => new
                 {
@@ -170,7 +190,7 @@ namespace ContactsApp.API.Migrations
                     Phone = table.Column<string>(type: "TEXT", maxLength: 20, nullable: true),
                     Email = table.Column<string>(type: "TEXT", maxLength: 200, nullable: true),
                     Address = table.Column<string>(type: "TEXT", maxLength: 500, nullable: true),
-                    Company = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
+                    Category = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
                     Notes = table.Column<string>(type: "TEXT", maxLength: 1000, nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
@@ -225,6 +245,11 @@ namespace ContactsApp.API.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Categories_UserId",
+                table: "Categories",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Contacts_UserId",
                 table: "Contacts",
                 column: "UserId");
@@ -252,6 +277,9 @@ namespace ContactsApp.API.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "Contacts");

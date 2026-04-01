@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ContactsApp.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260328152653_InitialCreate")]
+    [Migration("20260331213812_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -95,6 +95,28 @@ namespace ContactsApp.API.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("ContactsApp.API.Models.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Categories");
+                });
+
             modelBuilder.Entity("ContactsApp.API.Models.Contact", b =>
                 {
                     b.Property<int>("Id")
@@ -105,8 +127,8 @@ namespace ContactsApp.API.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Company")
-                        .HasMaxLength(100)
+                    b.Property<string>("Category")
+                        .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreatedAt")
@@ -278,6 +300,17 @@ namespace ContactsApp.API.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("ContactsApp.API.Models.Category", b =>
+                {
+                    b.HasOne("ContactsApp.API.Models.ApplicationUser", "User")
+                        .WithMany("Categories")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("ContactsApp.API.Models.Contact", b =>
                 {
                     b.HasOne("ContactsApp.API.Models.ApplicationUser", "User")
@@ -342,6 +375,8 @@ namespace ContactsApp.API.Migrations
 
             modelBuilder.Entity("ContactsApp.API.Models.ApplicationUser", b =>
                 {
+                    b.Navigation("Categories");
+
                     b.Navigation("Contacts");
                 });
 #pragma warning restore 612, 618

@@ -32,8 +32,8 @@ public class CreateContactDto
     [MaxLength(500)]
     public string? Address { get; set; }
 
-    [MaxLength(100)]
-    public string? Company { get; set; }
+    [MaxLength(50)]
+    public string? Category { get; set; }
 
     [MaxLength(1000)]
     public string? Notes { get; set; }

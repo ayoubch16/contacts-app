@@ -3,6 +3,27 @@ import { Link, useNavigate, Navigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { useAuth } from '../contexts/AuthContext'
 
+const Field = ({ label, name, type = 'text', placeholder, required, formData, fieldErrors, handleChange }) => (
+  <div>
+    <label className="block text-sm font-medium text-gray-700 mb-1">
+      {label} {required && <span className="text-red-500">*</span>}
+    </label>
+    <input
+      type={type}
+      name={name}
+      value={formData[name]}
+      onChange={handleChange}
+      placeholder={placeholder}
+      className={`w-full px-3 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+        fieldErrors[name] ? 'border-red-400' : 'border-gray-300'
+      }`}
+    />
+    {fieldErrors[name] && (
+      <p className="text-red-500 text-xs mt-1">{fieldErrors[name]}</p>
+    )}
+  </div>
+)
+
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
     firstName: '',
@@ -24,13 +45,11 @@ export default function RegisterPage() {
   const handleChange = (e) => {
     const { name, value } = e.target
     setFormData(prev => ({ ...prev, [name]: value }))
-    // Effacer l'erreur du champ dès que l'utilisateur retape
     if (fieldErrors[name]) {
       setFieldErrors(prev => ({ ...prev, [name]: '' }))
     }
   }
 
-  // Validation côté client avant d'envoyer la requête
   const validate = () => {
     const errors = {}
     if (!formData.firstName.trim()) errors.firstName = 'Le prénom est obligatoire'
@@ -76,27 +95,7 @@ export default function RegisterPage() {
     }
   }
 
-  // Helper pour afficher un champ avec son label, input et message d'erreur
-  const Field = ({ label, name, type = 'text', placeholder, required }) => (
-    <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1">
-        {label} {required && <span className="text-red-500">*</span>}
-      </label>
-      <input
-        type={type}
-        name={name}
-        value={formData[name]}
-        onChange={handleChange}
-        placeholder={placeholder}
-        className={`w-full px-3 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-          fieldErrors[name] ? 'border-red-400' : 'border-gray-300'
-        }`}
-      />
-      {fieldErrors[name] && (
-        <p className="text-red-500 text-xs mt-1">{fieldErrors[name]}</p>
-      )}
-    </div>
-  )
+  const fieldProps = { formData, fieldErrors, handleChange }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-8">
@@ -110,12 +109,12 @@ export default function RegisterPage() {
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
-              <Field label="Prénom" name="firstName" required />
-              <Field label="Nom" name="lastName" required />
+              <Field label="Prénom" name="firstName" required {...fieldProps} />
+              <Field label="Nom" name="lastName" required {...fieldProps} />
             </div>
-            <Field label="Email" name="email" type="email" placeholder="jean@exemple.com" required />
-            <Field label="Mot de passe" name="password" type="password" placeholder="Minimum 6 caractères" required />
-            <Field label="Confirmer le mot de passe" name="confirmPassword" type="password" required />
+            <Field label="Email" name="email" type="email" placeholder="jean@exemple.com" required {...fieldProps} />
+            <Field label="Mot de passe" name="password" type="password" placeholder="Minimum 6 caractères" required {...fieldProps} />
+            <Field label="Confirmer le mot de passe" name="confirmPassword" type="password" required {...fieldProps} />
 
             <button
               type="submit"

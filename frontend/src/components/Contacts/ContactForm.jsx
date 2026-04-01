@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import api from '../../api/axiosConfig'
 
 /*
  * DECISION : Formulaire contrôlé (Controlled Form).
@@ -22,18 +23,23 @@ export default function ContactForm({ contact, onSubmit, onCancel, isLoading }) 
     phone: '',
     email: '',
     address: '',
-    company: '',
+    category: '',
     notes: '',
   }
 
   const [formData, setFormData] = useState(initialState)
   const [errors, setErrors] = useState({})
+  const [categories, setCategories] = useState([])
 
   /*
    * useEffect pour pré-remplir le formulaire quand on édite.
    * Si la prop "contact" change (ex: on ouvre le formulaire d'édition),
    * on met à jour l'état avec les données du contact.
    */
+  useEffect(() => {
+    api.get('/categories').then(res => setCategories(res.data.map(c => c.name)))
+  }, [])
+
   useEffect(() => {
     if (contact) {
       setFormData({
@@ -42,7 +48,7 @@ export default function ContactForm({ contact, onSubmit, onCancel, isLoading }) 
         phone: contact.phone || '',
         email: contact.email || '',
         address: contact.address || '',
-        company: contact.company || '',
+        category: contact.category || '',
         notes: contact.notes || '',
       })
     } else {
@@ -130,7 +136,7 @@ export default function ContactForm({ contact, onSubmit, onCancel, isLoading }) 
           value={formData.phone}
           onChange={handleChange}
           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="+33 6 12 34 56 78"
+          placeholder="+212 X XX XX XX XX"
         />
       </div>
 
@@ -152,16 +158,20 @@ export default function ContactForm({ contact, onSubmit, onCancel, isLoading }) 
         )}
       </div>
 
-      {/* Entreprise */}
+      {/* Catégorie */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Entreprise</label>
-        <input
-          type="text"
-          name="company"
-          value={formData.company}
+        <label className="block text-sm font-medium text-gray-700 mb-1">Catégorie</label>
+        <select
+          name="category"
+          value={formData.category}
           onChange={handleChange}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+        >
+          <option value="">-- Sélectionner une catégorie --</option>
+          {categories.map(cat => (
+            <option key={cat} value={cat}>{cat}</option>
+          ))}
+        </select>
       </div>
 
       {/* Adresse */}

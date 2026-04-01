@@ -2,6 +2,7 @@ using System.Text;
 using ContactsApp.API.Data;
 using ContactsApp.API.Models;
 using ContactsApp.API.Services.Auth;
+using ContactsApp.API.Services.Categories;
 using ContactsApp.API.Services.Contacts;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -127,6 +128,7 @@ builder.Services.AddAuthorization();
  */
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IContactService, ContactService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 // ============================================================
 // SECTION 5 : CORS (Cross-Origin Resource Sharing)

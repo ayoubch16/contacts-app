@@ -38,6 +38,7 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
      * Et EF Core traduit ça en SQL : SELECT * FROM Contacts WHERE UserId = @userId
      */
     public DbSet<Contact> Contacts { get; set; }
+    public DbSet<Category> Categories { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -59,6 +60,15 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
          * parcourt l'index au lieu de toute la table → requêtes beaucoup plus rapides
          * quand la table a beaucoup de données.
          */
+        builder.Entity<Category>(entity =>
+        {
+            entity.HasIndex(c => c.UserId);
+            entity.HasOne(c => c.User)
+                  .WithMany(u => u.Categories)
+                  .HasForeignKey(c => c.UserId)
+                  .OnDelete(DeleteBehavior.Cascade);
+        });
+
         builder.Entity<Contact>(entity =>
         {
             // Index sur UserId pour accélérer les requêtes filtrées par utilisateur

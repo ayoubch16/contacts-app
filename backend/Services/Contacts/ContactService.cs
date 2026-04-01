@@ -33,7 +33,7 @@ public class ContactService : IContactService
                 c.LastName.ToLower().Contains(term) ||
                 (c.Email != null && c.Email.ToLower().Contains(term)) ||
                 (c.Phone != null && c.Phone.Contains(term)) ||
-                (c.Company != null && c.Company.ToLower().Contains(term))
+                (c.Category != null && c.Category.ToLower().Contains(term))
             );
         }
 
@@ -79,7 +79,7 @@ public class ContactService : IContactService
             Phone = dto.Phone,
             Email = dto.Email,
             Address = dto.Address,
-            Company = dto.Company,
+            Category = dto.Category,
             Notes = dto.Notes,
             UserId = userId,
             CreatedAt = DateTime.UtcNow,
@@ -105,7 +105,7 @@ public class ContactService : IContactService
         contact.Phone = dto.Phone;
         contact.Email = dto.Email;
         contact.Address = dto.Address;
-        contact.Company = dto.Company;
+        contact.Category = dto.Category;
         contact.Notes = dto.Notes;
         contact.UpdatedAt = DateTime.UtcNow;
 
@@ -136,7 +136,7 @@ public class ContactService : IContactService
         Phone = contact.Phone,
         Email = contact.Email,
         Address = contact.Address,
-        Company = contact.Company,
+        Category = contact.Category,
         Notes = contact.Notes,
         CreatedAt = contact.CreatedAt,
         UpdatedAt = contact.UpdatedAt

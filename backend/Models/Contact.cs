@@ -39,8 +39,8 @@ public class Contact
     [MaxLength(500)]
     public string? Address { get; set; }
 
-    [MaxLength(100)]
-    public string? Company { get; set; }
+    [MaxLength(50)]
+    public string? Category { get; set; }
 
     // Notes libres sur le contact
     [MaxLength(1000)]
